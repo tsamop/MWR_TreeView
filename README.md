@@ -33,7 +33,7 @@ You really only need the files <a href="https://github.com/tsamop/MWR_TreeView/b
 <li>I wanted the TreeView to generate an event when a node was clicked</li>
 </ul>
 
-So this is the most minimal treeview I could generate.
+So this is the most minimal treeview I could generate.<br/>
 9/23/2018 - mike richards
 
 
