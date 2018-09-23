@@ -31,7 +31,7 @@ A VERY FAST, lightweight, infinitely deep, jQueryUI widget, AJAX TreeView contro
 </ul>
 
 So this is the most minimal treeview I could generate.
-You really only need the files MWR_Treeview.js and MWR_Treeview.css, the rest of the project is just included as an example 
+You really only need the files <a href="https://github.com/tsamop/MWR_TreeView/blob/master/JSON_TreeView/scripts/MWR_Treeview.js">MWR_Treeview.js</a> and <a href="https://github.com/tsamop/MWR_TreeView/blob/master/JSON_TreeView/styles/MWR_Treeview.css">MWR_Treeview.css</a>, the rest of the project is just included as an example 
 to help people understand the AJAX/JSON callbacks.
 
 
