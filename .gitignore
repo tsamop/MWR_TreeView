@@ -1,0 +1,6 @@
+*.suo
+packages
+.vs
+obj
+bin
+.DS_Store

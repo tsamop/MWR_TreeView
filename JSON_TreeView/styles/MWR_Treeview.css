@@ -1,0 +1,60 @@
+﻿    
+    body{
+        font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }    
+
+    .c-mwr-tree-endNode
+	{
+		list-style-image:none;
+		list-style-type:none;
+	}
+
+    .c-mwr-tree-collapseHead, c-mwr-tree-endNode
+	{
+  		cursor: pointer;
+  		text-decoration:underline;
+  		color:blue;
+  		font-size:smaller;
+        border-radius: 3px;
+        border:none;
+        background-color:none;
+	}
+
+	.c-mwr-tree-collapseHead:hover, c-mwr-tree-endNode:hover
+	{
+  		background-color:yellow;
+  		font-weight:bold;
+	}
+	.c-mwr-tree-plusImage
+	{
+		list-style-image: url('../images/plus.gif');
+	}
+	.c-mwr-tree-minusImage
+	{
+		list-style-image: url('../images/minus.gif');
+	}
+
+    .c-mwr-tree-selected
+    {
+        background-color:lightgray;
+        border: 2px solid darkgray;
+        border-radius: 3px;
+    }
+
+	.c-mwr-tree-innerList  ul
+	{
+		/* carefully control indent in tree */
+		list-style-position:outside;
+		margin-left:10px;
+		padding-left:10px;
+	}
+
+	/* -- this is how to bound the list in a scrolling box --*/
+	#TreeViewDiv
+	{
+		border:1px solid gray;
+		padding:0px 0px 50px 0px;
+		height:700px;
+		width:600px;
+		overflow: scroll;
+	}
