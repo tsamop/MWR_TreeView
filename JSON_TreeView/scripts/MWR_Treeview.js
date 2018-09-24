@@ -24,7 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
     
     SINGLE NODE are returned as JSON objects with three properties:
         {"displayContents":"<the url encoded HTML to be displayed in the node>"
-        ,"id":"<the unique ID of the node"
+        ,"id":"<the unique ID of the node>"
         ,"kids":"<the count of children under the node>"}
     
     THREE AJAX ENDPOINTS REQUIRED:
