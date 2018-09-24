@@ -20,15 +20,31 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 // see https://msdn.microsoft.com/en-us/magazine/ff706600
 // and https://www.smashingmagazine.com/2011/10/essential-jquery-plugin-patterns/
 
+/* This Widget requires three AJAX endpoints, as described below:
+    
+    SINGLE NODE are returned as JSON objects with three properties:
+        {"displayContents":"<the url encoded HTML to be displayed in the node>"
+        ,"id":"<the unique ID of the node"
+        ,"kids":"<the count of children under the node>"}
+    
+    THREE AJAX ENDPOINTS REQUIRED:
+    nodeRetrevalURI(sParentID) -- returns a JSON array of single nodes that are children of the parent passed in. 
+                                    The SINGLE NODE object (the array elements) is described above.
+    pathToStartingNodeURI(sChildID) -- A JSON array of NodeID's representing the path up the tree to the top level parent
+                                        starting with sChildID in index 0 and ending in the parent node id.
+    singleNodeDetailsURI(sNodeID) --  URL to retrieve a single node. Should accept a NodeID and return a Node object in JSON as described above. 
+
+*/
+
 ; (function ($, window, document, undefined) {
 
     $.widget('mwrTreeView.MWR_AjaxTree', {
         options: {
             limitNodesToCurrentParent: false //wether to request all parents, or just the parent of hte currentNodeKey (true for sample trees!!)
             , currentNodeKey: "" //what the tree should be expanded to.  If empty, the first level of the tree is expanded.
-            , nodeRetrevalURI: "MWR_Treeview.aspx/RetrieveTreeLevel" //where to get subnodes from.
-            , pathToStartingNodeURI: "MWR_Treeview.aspx/RetrievePathToParent"
-            , singleNodeDetailsURI: "MWR_Treeview.aspx/RetrieveSingleNode" //just the one node!
+            , nodeRetrevalURI: "Default.aspx/RetrieveTreeLevel" //where to get subnodes from.
+            , pathToStartingNodeURI: "Default.aspx/RetrievePathToParent"
+            , singleNodeDetailsURI: "Default.aspx/RetrieveSingleNode" //just the one node!
         }
         , _create: function () {
 
@@ -97,10 +113,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
             this._buildPathToCurrentNode(nodeKey);
 
         }
-        , destroy: function () {
-            // Call the parent destroy method
+        , _destroy: function () {
             $(this.element).empty();
-            this._destroy();
         }
         //=====================================================================================================
         //========================= THESE FUNCTIONS MAP THE DOM TO THE TREE! ==================================

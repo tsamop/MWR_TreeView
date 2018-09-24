@@ -6,108 +6,154 @@
 <head runat="server">
     <script src="scripts/jquery-3.0.0.min.js"></script>
     <script src="scripts/jquery-ui.min.js"></script>
-    <script src="scripts/JSON_Treeview.js"></script>
+    <script src="scripts/MWR_Treeview.js"></script>
 
     <link href="styles/MWR_Treeview.css" rel="stylesheet" />
 
     <title></title>
 
     <script>
-        function initTreeView() {
-            //this keeps clicks lower down in the tree from bubbling up and messing
-            // with the tree expansion/contraction.
-            $('li.collapsable').children('ul').click(function (e) { e.stopPropagation(); });
 
-            //function to manage expand/collapse of UL to give appearance of treeview.
-            $('li.collapsable').click(function () {
-                $(this).toggleClass('c-mwr-tree-plusImage')
-                       .toggleClass('c-mwr-tree-minusImage')
-                       .children('ul').slideToggle();
-            });
-
-            //start things collapsed,and remember to start with them having a c-mwr-tree-plusImage class!!
-            $('c-mwr-tree-plusImage').children('ul').hide(); //this won't collapse the top level list, because it has a different name.
-
-            //little function to get the ID of a specific LI!
-            $("li").mouseenter(function () {
-                var liID = $(this).children('.hidIDfield').val();
-                $('#txtID').val(liID);
-            });
-
+        //so we can widget many times!
+        // normally, you would not do this.
+        function Cleanup() {
+            var tvInstance = $("#myTree").MWR_AjaxTree("instance");
+            
+            if (tvInstance)
+                tvInstance.destroy();
         }
 
 
         $(document).ready(function () {
-            //this is for the static tree view!!
-            initTreeView();
+            
+
+            $('#cmdSelect').click(function () {
+
+                var nodeID = $('#txtID').val();
+
+                //get refrence to existing widget
+                var tvInstance = $("#myTree").MWR_AjaxTree("instance");
+
+                if (tvInstance) {
+                    try {
+                        tvInstance.selectNode(nodeID);
+                    }
+                    catch (e) {
+                        alert("Demo has no input validation. enter a number.");
+                    }
+                }
+                else
+                    alert("use buttons at top to create a tree first");
+
+            });
+
+            $('#cmdSimple').click(function () {
+
+                Cleanup();
+
+                $("#myTree").MWR_AjaxTree({
+                    nodeRetrevalURI: "Default.aspx/RetrieveTreeLevel"
+                , pathToStartingNodeURI: "Default.aspx/RetrievePathToParent"
+                , singleNodeDetailsURI: "Default.aspx/RetrieveSingleNode"
+                });
+            });
+            
+
+
+            //example 1: simple AJAX tree,
+            // with event handler to show clicked node.
+            $('#cmdTopDown').click(function () {
+
+                Cleanup();
+
+                $("#myTree").MWR_AjaxTree({
+                    NodeSelected: function (oNode, oData) {
+                        $('#txtID').val(oData.id);
+                    }
+                    , nodeRetrevalURI: "Default.aspx/RetrieveTreeLevel"
+                    , pathToStartingNodeURI: "Default.aspx/RetrievePathToParent"
+                    , singleNodeDetailsURI: "Default.aspx/RetrieveSingleNode"
+            
+                });
+            });
+
+            //Ajax tree built out to specific node,
+            // like a sample tree, where you dont' want to show
+            // all possible parents
+            $('#cmdShowOne').click(function () {
+
+                Cleanup();
+
+                $("#myTree").MWR_AjaxTree({
+                    limitNodesToCurrentParent: true
+                    , currentNodeKey: "65"
+                    , NodeSelected: function (oNode, oData) {
+                        $('#txtID').val(oData.id);
+                    }
+                    , nodeRetrevalURI: "Default.aspx/RetrieveTreeLevel"
+                    , pathToStartingNodeURI: "Default.aspx/RetrievePathToParent"
+                    , singleNodeDetailsURI: "Default.aspx/RetrieveSingleNode"
+                });
+            });
+
+            //AJAX tree built out to a specific, where you DO want
+            // to show all possible parents, like a
+            // location tree, where you want to start with a specific location.
+            $('#cmdShowAll').click(function () {
+
+                Cleanup();
+
+                $("#myTree").MWR_AjaxTree({
+                    limitNodesToCurrentParent: false
+                    , currentNodeKey: "228"
+                    , NodeSelected: function (oNode, oData) {
+                        $('#txtID').val(oData.id);
+                    }
+                    , nodeRetrevalURI: "Default.aspx/RetrieveTreeLevel"
+                    , pathToStartingNodeURI: "Default.aspx/RetrievePathToParent"
+                    , singleNodeDetailsURI: "Default.aspx/RetrieveSingleNode"
+                });
+            });
+
+
+
+            $('#cmdDispose').click(function () {
+
+                Cleanup();
+              
+            });
+
+
+
 
         });
 
 
     </script>
 
-
 </head>
 <body>
     <form id="form1" runat="server">
-    <div>
-        <a href="MWR_Treeview.aspx">DYNAMIC VERSION</a><br /><br />
-        ID=<input id="txtID" type="text" />
+    <div style="padding:40px">
 
-			        <ul id="staticListSource" class="c-mwr-tree-innerList">
-				        <li class="collapsable c-mwr-tree-plusImage">
-				            <span class="c-mwr-tree-collapseHead">blue</span>
-                            <input type="hidden" class="hidIDfield" value="1" />
-					        <ul style="display: none;">
-						        <li class="collapsable c-mwr-tree-plusImage">
-						            <span class="c-mwr-tree-collapseHead">light blue</span>
-                                    <input type="hidden" class="hidIDfield" value="1-1" />
-							        <ul style="display: none;">
-								        <li class="collapsable c-mwr-tree-plusImage">
-								            <span class="c-mwr-tree-collapseHead">light light blue</span>
-                                            <input type="hidden" class="hidIDfield" value="1-1-1" />
-									        <ul style="display: none;">
-										        <li>A
-                                                    <input type="hidden" class="hidIDfield" value="1-1-1-1" />
-										        </li>
-										        <li>B
-                                                    <input type="hidden" class="hidIDfield" value="1-1-1-2" /></li>
-										        <li>C
-                                                    <input type="hidden" class="hidIDfield" value="1-1-1-3" /></li>
-									        </ul>
-								        </li>
-							        </ul>
-						        </li>
-					        </ul>
-				        </li>
-                        <li class="collapsable c-mwr-tree-plusImage">
-				            <span class="c-mwr-tree-collapseHead">green</span>
-                            <input type="hidden" class="hidIDfield" value="2" />
-					        <ul style="display: none;">
-						        <li class="collapsable c-mwr-tree-plusImage">
-						            <span class="c-mwr-tree-collapseHead">light green</span>
-                                    <input type="hidden" class="hidIDfield" value="2-1" />
-							        <ul style="display: none;">
-								        <li class="collapsable c-mwr-tree-plusImage">
-								            <span class="c-mwr-tree-collapseHead">light light green</span>
-                                            <input type="hidden" class="hidIDfield" value="2-2" />
-									        <ul style="display: none;">
-										        <li>C
-                                            <input type="hidden" class="hidIDfield" value="2-2-1" />  </li>
-										        <li>B
-                                            <input type="hidden" class="hidIDfield" value="2-2-2" /></li>
-										        <li>A
-                                            <input type="hidden" class="hidIDfield" value="2-2-3" /></li>
-									        </ul>
-								        </li>
-							        </ul>
-						        </li>
-					        </ul>
-				        </li>
-			        </ul>
+        
+        <input id="cmdSimple" type="button" value=" Top-Down Tree, no events" />
+        <input id="cmdTopDown" type="button" value="Build Top-Down Tree" />
+        <input id="cmdShowOne" type="button" value="Build Bottom-Up Tree" />
+        <input id="cmdShowAll" type="button" value="Build Bottom-Up Tree With full Top-level" />
+        <input id="cmdDispose" type="button" value="dispose tree" />
+
+        <br /><br />
+         SELECTED ID=  <input id="txtID" type="text" />&nbsp; &nbsp; <input id="cmdSelect" type="button" value="<< show this node." />
+
+        <div id="myTree">
+
+        </div>
                
+        
     </div>
 
     </form>
 </body>
 </html>
+
