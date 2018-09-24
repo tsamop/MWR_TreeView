@@ -1,5 +1,6 @@
 # MWR_TreeView
 A VERY FAST, lightweight, infinitely deep, jQueryUI widget, AJAX TreeView control.
+(that uses HTTP POST for callbacks)
 
 You really only need the files <a href="https://github.com/tsamop/MWR_TreeView/blob/master/JSON_TreeView/scripts/MWR_Treeview.js">MWR_Treeview.js</a> and <a href="https://github.com/tsamop/MWR_TreeView/blob/master/JSON_TreeView/styles/MWR_Treeview.css">MWR_Treeview.css</a>, the rest of the project is just included as an example to help people understand the AJAX/JSON callbacks.
 
@@ -29,11 +30,14 @@ You really only need the files <a href="https://github.com/tsamop/MWR_TreeView/b
 </ul>
     <li>2). Start with only root nodes displayed</li>
 </ul>
-    
+
 <li>I wanted the TreeView to generate an event when a node was clicked</li>
 </ul>
 
 So this is the most minimal treeview I could generate.<br/>
+
+It works best with ASP.NET [WebMethod], as it uses HTTP POST for callback.
+
 9/23/2018 - mike richards
 
 
