@@ -319,6 +319,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
                 url: this.options.nodeRetrevalURI
                 , data: "{'sParentID':'" + parentNodeID + "'}"
                 , success: $.proxy(this._RenderRetrievedNodes, null, parentContainer, childStack)
+                , async: false
             });
         }
         , _buildPathToCurrentNode: function (childNodeID) {
