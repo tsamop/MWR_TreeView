@@ -92,8 +92,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
             //opens up all possible nodes!! (not good for Sample trees)
             // LIKE LOOKING AT "ALL LOCATIONS" IN A FACILITY.
             // where we'd look for items with no parent and display them all.
-            if (!this.options.limitNodesToCurrentParent)
-                this._retrieveNodeChildren(this.element, "");
+            if (!this.options.limitNodesToCurrentParent) {
+                if (thisNodeKey.length)
+                    this._retrieveNodeChildren(this.element, "", [thisNodeKey]);//condition where the element is on the root.
+                else
+                    this._retrieveNodeChildren(this.element, "");
+            }
 
             // The path to the current node is always bilt prior to
             //  retrieving the levels, then we turn the level retriever loose on the path.
